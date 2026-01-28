@@ -58,4 +58,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.okhttp)
 }
