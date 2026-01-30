@@ -10,6 +10,8 @@ import java.util.concurrent.TimeUnit
 
 class ServerCommunicationManager {
 
+    private val BASE_URL = "https://pokeapi.co/api/v2/"
+
     private val client: OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(15, TimeUnit.SECONDS)
         .readTimeout(15, TimeUnit.SECONDS)
@@ -18,7 +20,7 @@ class ServerCommunicationManager {
     suspend fun execute(url: String): ServerResponse<String> =
         withContext(Dispatchers.IO) {
             try {
-                val request = buildHttpRequest(url)
+                val request = buildHttpRequest(resolveUrl(path = url))
                 val response = client.newCall(request).execute()
 
                 ServerResponse(
@@ -49,5 +51,13 @@ class ServerCommunicationManager {
             .url(url)
             .get()
             .build()
+    }
+
+    private fun resolveUrl(path: String): String {
+        return if (path.startsWith("http")) {
+            path
+        } else {
+            BASE_URL + path
+        }
     }
 }
