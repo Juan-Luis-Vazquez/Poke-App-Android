@@ -6,7 +6,7 @@ sealed class PokemonListEstate {
     object Idle : PokemonListEstate()
     object Loading: PokemonListEstate()
     data class Success(
-        val pokemon: List<Pokemon>
+        val pokemonList: List<Pokemon>
     ) : PokemonListEstate()
 
     data class Error(

@@ -55,7 +55,7 @@ class PokemonListViewModelTest {
 
         assertTrue(state is PokemonListEstate.Success)
         assertTrue(
-            (state as PokemonListEstate.Success).pokemon.size == 2
+            (state as PokemonListEstate.Success).pokemonList.size == 2
         )
     }
 }

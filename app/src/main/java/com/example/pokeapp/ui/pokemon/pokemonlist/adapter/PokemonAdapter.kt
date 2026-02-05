@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.pokeapp.databinding.ItemPokemonBinding
 import com.example.pokeapp.domain.model.pokemon.Pokemon
 
-class PokemonAdapter :
+class PokemonAdapter(
+    private val onClick: (Pokemon) -> Unit
+) :
     ListAdapter<Pokemon, PokemonViewHolder>(PokemonDiffCallback()) {
 
     override fun onCreateViewHolder(
@@ -18,7 +20,7 @@ class PokemonAdapter :
             parent,
             false
         )
-        return PokemonViewHolder(binding)
+        return PokemonViewHolder(binding, onClick)
     }
 
     override fun onBindViewHolder(

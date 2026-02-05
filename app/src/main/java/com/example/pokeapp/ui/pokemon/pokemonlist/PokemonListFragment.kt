@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pokeapp.R
 import com.example.pokeapp.databinding.FragmentPokemonListBinding
@@ -20,7 +21,7 @@ class PokemonListFragment : Fragment(R.layout.fragment_pokemon_list) {
     private val binding get() = _binding!!
 
     private val viewModel: PokemonListViewModel by viewModels {
-        PokemonListViewModelFactory()
+        PokemonListViewModelFactory(requireContext())
     }
 
     private lateinit var adapter: PokemonAdapter
@@ -30,7 +31,13 @@ class PokemonListFragment : Fragment(R.layout.fragment_pokemon_list) {
 
         _binding = FragmentPokemonListBinding.bind(view)
 
-        adapter = PokemonAdapter()
+        adapter = PokemonAdapter { pokemon ->
+            val action =
+                PokemonListFragmentDirections
+                    .actionListToDetail(pokemon.id)
+
+            findNavController().navigate(action)
+        }
 
         binding.recycler.layoutManager =
             LinearLayoutManager(requireContext())
@@ -48,7 +55,7 @@ class PokemonListFragment : Fragment(R.layout.fragment_pokemon_list) {
                     when (state) {
                         is PokemonListEstate.Success -> {
                             binding.recycler.visibility = View.VISIBLE
-                            adapter.submitList(state.pokemon)
+                            adapter.submitList(state.pokemonList)
                         }
                         PokemonListEstate.Loading -> {
                             Log.d("POKEMON", "Loading")

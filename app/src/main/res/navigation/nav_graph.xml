@@ -8,6 +8,20 @@
     <fragment
         android:id="@+id/pokemonListFragment"
         android:name="com.example.pokeapp.ui.pokemon.pokemonlist.PokemonListFragment"
-        android:label="Pokemon List" />
+        android:label="Pokemon List" >
+        <action
+            android:id="@+id/action_list_to_detail"
+            app:destination="@id/pokemonDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/pokemonDetailFragment"
+        android:name="com.example.pokeapp.ui.pokemon.pokemonDetail.PokemonDetailFragment"
+        android:label="Pokemon Detail">
+
+        <argument
+            android:name="pokemonId"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>
