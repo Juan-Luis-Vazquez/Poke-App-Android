@@ -20,8 +20,12 @@ class PokemonRemoteDataSource(
         )
     }
 
-    suspend fun fetchTechnicalDetails(id: Int): PokemonTechnicalDetailDto {
-        return requests.getPokemonTechnicalDetail(id = id)
+    suspend fun fetchTechnicalDetailsById(id: Int): PokemonTechnicalDetailDto {
+        return requests.getPokemonTechnicalDetailById(id = id)
+    }
+
+    suspend fun fetchTechnicalDetailsByName(name: String): PokemonTechnicalDetailDto {
+        return requests.getPokemonTechnicalDetailByName(name = name)
     }
 
     suspend fun fetchNarrativeDetails(id: Int): PokemonNarrativeDetailDto {

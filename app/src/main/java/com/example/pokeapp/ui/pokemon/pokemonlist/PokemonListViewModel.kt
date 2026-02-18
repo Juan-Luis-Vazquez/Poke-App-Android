@@ -20,7 +20,7 @@ class PokemonListViewModel(
 
         viewModelScope.launch {
             _state.value = pokemonRepository
-                .getPokemonPage(page = 1)
+                .getPokemonPage(page = 0)
                 .fold(
                     onSuccess = { list ->
                         PokemonListEstate.Success(list)

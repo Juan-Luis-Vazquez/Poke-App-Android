@@ -1,32 +1,56 @@
 package com.example.pokeapp.data.repository.pokemon
 
+import com.example.pokeapp.data.datasource.pokemon.PokemonLocalDataSource
 import com.example.pokeapp.data.datasource.pokemon.PokemonRemoteDataSource
 import com.example.pokeapp.data.mapper.toDomain
+import com.example.pokeapp.data.mapper.toEntity
+import com.example.pokeapp.data.mapper.toListItem
 import com.example.pokeapp.data.repository.type.TypeRepository
 import com.example.pokeapp.data.util.PokemonImageProvider
 import com.example.pokeapp.domain.model.pokemon.Pokemon
 import com.example.pokeapp.domain.model.pokemon.PokemonDetail
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 
 class PokemonRepository(
     private val remoteDataSource: PokemonRemoteDataSource,
+    private val localDataSource: PokemonLocalDataSource,
     private val typeRepository: TypeRepository
 ) {
     suspend fun getPokemonPage(
         page: Int,
-        pageSize: Int = 20
+        pageSize: Int = 500
     ): Result<List<Pokemon>> {
         return try {
-            val offset = page * pageSize
-            val response = remoteDataSource.fetchPokemonList(
-                limit = pageSize,
-                offset = offset
-            )
+            coroutineScope {
 
-            Result.success(
-                response.results.map { it.toDomain() }
-            )
+                val offset = page * pageSize
+
+                val response = remoteDataSource.fetchPokemonList(
+                    limit = pageSize,
+                    offset = offset
+                )
+
+                val deferred = response.results.map { item ->
+                    async {
+
+                        localDataSource.getByName(item.name)
+                            ?: run {
+                                val technical =
+                                    remoteDataSource.fetchTechnicalDetailsByName(item.name)
+
+                                localDataSource.save(
+                                    technical
+                                )
+
+                                technical.toListItem()
+                            }
+                    }
+                }
+
+                Result.success(deferred.awaitAll())
+            }
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -38,7 +62,7 @@ class PokemonRepository(
             coroutineScope {
 
                 val technicalDeferred = async {
-                    remoteDataSource.fetchTechnicalDetails(id)
+                    remoteDataSource.fetchTechnicalDetailsById(id)
                 }
 
                 val narrativeDeferred = async {

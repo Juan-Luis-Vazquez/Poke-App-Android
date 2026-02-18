@@ -40,10 +40,23 @@ class PokemonRequests(
         return Gson().fromJson(response.body, PokemonNarrativeDetailDto::class.java)
     }
 
-    suspend fun getPokemonTechnicalDetail(id: Int): PokemonTechnicalDetailDto {
+    suspend fun getPokemonTechnicalDetailById(id: Int): PokemonTechnicalDetailDto {
 
         val response = network.execute(
-            PokemonApi.technicalDetail(id)
+            PokemonApi.technicalDetailById(id)
+        )
+
+        if (!response.isSuccessful || response.body == null) {
+            throw IllegalStateException("Network error: ${response.error}")
+        }
+
+        return Gson().fromJson(response.body, PokemonTechnicalDetailDto::class.java)
+    }
+
+    suspend fun getPokemonTechnicalDetailByName(name: String): PokemonTechnicalDetailDto {
+
+        val response = network.execute(
+            PokemonApi.technicalDetailByName(name)
         )
 
         if (!response.isSuccessful || response.body == null) {

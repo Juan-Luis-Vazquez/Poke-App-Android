@@ -1,10 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- TYPE BASE COLORS -->
+    <color name="type_primary_grass">#5FBC51</color>
+    <color name="type_primary_poison">#A864C7</color>
+    <color name="type_primary_fire">#FB9B51</color>
+    <color name="type_primary_water">#6EC6FF</color>
+    <color name="type_primary_electric">#EDD53E</color>
+    <color name="type_primary_ice">#B8E9FF</color>
+    <color name="type_primary_fighting">#F28B82</color>
+    <color name="type_primary_fairy">#F7A8C7</color>
+    <color name="type_primary_steel">#C9D0D8</color>
+    <color name="type_primary_ground">#D8B57A</color>
+    <color name="type_primary_rock">#C5B489</color>
+    <color name="type_primary_bug">#92BC2C</color>
+    <color name="type_primary_ghost">#516AAC</color>
+    <color name="type_primary_dark">#595761</color>
+    <color name="type_primary_dragon">#0C69C8</color>
+    <color name="type_primary_normal">#9298A4</color>
+    <color name="type_primary_psychic">#F66F71</color>
+    <color name="type_primary_flying">#90A7DA</color>
+
+    <color name="type_secondary_grass">#5AC178</color>
+    <color name="type_secondary_poison">#C261D4</color>
+    <color name="type_secondary_fire">#FBAE46</color>
+    <color name="type_secondary_water">#3A8DFF</color>
+    <color name="type_secondary_electric">#FBE273</color>
+    <color name="type_secondary_ice">#7CCBEE</color>
+    <color name="type_secondary_fighting">#D64545</color>
+    <color name="type_secondary_fairy">#E66FB2</color>
+    <color name="type_secondary_steel">#9FA8B3</color>
+    <color name="type_secondary_ground">#C69C5D</color>
+    <color name="type_secondary_rock">#D7CD90</color>
+    <color name="type_secondary_bug">#AFC836</color>
+    <color name="type_secondary_ghost">#7773D4</color>
+    <color name="type_secondary_dark">#6E7587</color>
+    <color name="type_secondary_dragon">#0180C7</color>
+    <color name="type_secondary_normal">#A3A49E</color>
+    <color name="type_secondary_psychic">#FE9F92</color>
+    <color name="type_secondary_flying">#A6C2F2</color>
+
+    <color name="type_grass_bg">#AEE5C0</color>
+    <color name="type_poison_bg">#E6C6FF</color>
+    <color name="type_fire_bg">#FFD3A4</color>
+    <color name="type_water_bg">#CFE5FF</color>
+    <color name="type_electric_bg">#FFF3B0</color>
+    <color name="type_ice_bg">#DFF6FB</color>
+    <color name="type_fighting_bg">#F5B7B1</color>
+    <color name="type_fairy_bg">#FFD6EC</color>
+    <color name="type_steel_bg">#E1E5EA</color>
+    <color name="type_ground_bg">#EAD7B7</color>
+    <color name="type_rock_bg">#E8DEB5</color>
+    <color name="type_bug_bg">#DDECC8</color>
+    <color name="type_ghost_bg">#DCD6F7</color>
+    <color name="type_dark_bg">#D7DBDD</color>
+    <color name="type_dragon_bg">#D6E9FF</color>
+    <color name="type_normal_bg">#E5E5E5</color>
+    <color name="type_psychic_bg">#FFD1CF</color>
+    <color name="type_flying_bg">#E3F0FF</color>
+
+    <color name="pokemon_id_color">#8C000000</color>
+
+
 </resources>

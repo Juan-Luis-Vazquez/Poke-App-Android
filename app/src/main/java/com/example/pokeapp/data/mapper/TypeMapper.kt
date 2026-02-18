@@ -3,13 +3,11 @@ package com.example.pokeapp.data.mapper
 import com.example.pokeapp.data.local.type.entity.TypeEntity
 import com.example.pokeapp.data.network.type.dto.TypeDto
 import com.example.pokeapp.data.network.type.dto.TypeItemDto
-import com.example.pokeapp.domain.model.type.Type
+import com.example.pokeapp.domain.model.type.PokemonType
 import com.example.pokeapp.domain.model.type.TypeDetail
 
-fun TypeItemDto.toDomain(): Type {
-    return Type(
-        name = name
-    )
+fun TypeItemDto.toDomain(): PokemonType {
+    return PokemonType.from(name)
 }
 
 fun TypeDto.toDomain(): TypeDetail {
@@ -51,4 +49,8 @@ fun TypeDetail.toEntity(): TypeEntity {
         resistances = resistances.joinToString(","),
         immunities = immunities.joinToString(",")
     )
+}
+
+fun String.toPokemonType(): PokemonType {
+    return PokemonType.from(this)
 }

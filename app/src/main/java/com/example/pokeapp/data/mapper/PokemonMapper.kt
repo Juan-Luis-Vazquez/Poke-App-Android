@@ -1,11 +1,13 @@
 package com.example.pokeapp.data.mapper
 
+import com.example.pokeapp.data.local.pokemon.dao.PokemonDao
+import com.example.pokeapp.data.local.pokemon.entity.PokemonEntity
 import com.example.pokeapp.data.network.pokemon.dto.EvolutionChainNodeDto
 import com.example.pokeapp.data.network.pokemon.dto.NamedResourceDto
 import com.example.pokeapp.data.network.pokemon.dto.PokemonAbilitySlotDto
-import com.example.pokeapp.data.network.pokemon.dto.PokemonEvolutionChainDto
 import com.example.pokeapp.data.network.pokemon.dto.PokemonItemDto
 import com.example.pokeapp.data.network.pokemon.dto.PokemonStatSlotDto
+import com.example.pokeapp.data.network.pokemon.dto.PokemonTechnicalDetailDto
 import com.example.pokeapp.data.network.pokemon.dto.TextEntryDto
 import com.example.pokeapp.data.util.PokemonImageProvider
 import com.example.pokeapp.domain.model.pokemon.Pokemon
@@ -67,25 +69,61 @@ fun List<TextEntryDto>.toDomain(
         }
 }
 
-fun EvolutionChainNodeDto.toDomain(
-    result: MutableList<PokemonDetailEvolution> = mutableListOf()
-): List<PokemonDetailEvolution> {
-
-    result.add(
-        PokemonDetailEvolution(
-            id = species.idFromUrl(),
-            name = species.name,
-            types = emptyList()
-        )
+fun EvolutionChainNodeDto.toDomain(): List<PokemonDetailEvolution> {
+    val current = PokemonDetailEvolution(
+        id = species.idFromUrl(),
+        name = species.name,
+        types = emptyList()
     )
 
-    evolvesTo.forEach { next ->
-        next.toDomain(result)
-    }
+    return listOf(current) + evolvesTo.flatMap { it.toDomain() }
+}
 
-    return result
+fun PokemonEntity.toListItem(): Pokemon {
+
+    return Pokemon(
+        id = id,
+        name = name,
+        types = buildTypes(
+            primary = primaryType,
+            secondary = secondaryType
+        ),
+        imageUrl = PokemonImageProvider.officialArtwork(id)
+
+    )
+}
+
+fun PokemonTechnicalDetailDto.toEntity(): PokemonEntity {
+    return PokemonEntity(
+        id = id,
+        name = name,
+        primaryType = types.first().type.name,
+        secondaryType = types.getOrNull(1)?.type?.name
+    )
+}
+
+fun PokemonTechnicalDetailDto.toListItem(): Pokemon {
+
+    return Pokemon(
+        id = id,
+        name = name,
+        types = buildTypes(
+            primary = types.first().type.name,
+            secondary = types.getOrNull(1)?.type?.name
+        ),
+        imageUrl =  PokemonImageProvider.officialArtwork(id)
+    )
 }
 
 fun NamedResourceDto.idFromUrl(): Int =
     url.trimEnd('/').substringAfterLast('/').toInt()
 
+private fun buildTypes(
+    primary: String,
+    secondary: String?
+): List<String> {
+    return buildList {
+        add(primary)
+        secondary?.let { add(it) }
+    }
+}

@@ -1,10 +1,12 @@
 package com.example.pokeapp.core
 
 import android.content.Context
+import com.example.pokeapp.data.datasource.pokemon.PokemonLocalDataSource
 import com.example.pokeapp.data.datasource.pokemon.PokemonRemoteDataSource
 import com.example.pokeapp.data.datasource.type.TypeLocalDataSource
 import com.example.pokeapp.data.datasource.type.TypeRemoteDataSource
 import com.example.pokeapp.data.local.DatabaseProvider
+import com.example.pokeapp.data.local.pokemon.dao.PokemonDao
 import com.example.pokeapp.data.network.ServerCommunicationManager
 import com.example.pokeapp.data.network.pokemon.PokemonRequests
 import com.example.pokeapp.data.network.type.TypeRequests
@@ -35,12 +37,19 @@ object ServiceLocator {
         return pokemonRepository ?: synchronized(this){
             pokemonRepository?: run {
 
+                val database = DatabaseProvider.get(context)
+                val typeDao = database.typeDao()
+
+                val localDataSource = PokemonLocalDataSource(database.pokemonDao())
+
                 val pokemonRequests = PokemonRequests(provideServerManager())
 
                 val remoteDataSource = PokemonRemoteDataSource(pokemonRequests)
 
+
                 PokemonRepository(
                     remoteDataSource =  remoteDataSource,
+                    localDataSource = localDataSource,
                     typeRepository = provideTypeRepository(context)
                 ).also {
                     pokemonRepository = it

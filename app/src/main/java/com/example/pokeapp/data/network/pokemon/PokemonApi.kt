@@ -12,8 +12,12 @@ object PokemonApi {
         return "$BASE_POKEMON?limit=$limit&offset=$offset"
     }
 
-    fun technicalDetail(id: Int): String {
+    fun technicalDetailById(id: Int): String {
         return "$BASE_POKEMON/$id"
+    }
+
+    fun technicalDetailByName(name: String): String {
+        return "$BASE_POKEMON/$name"
     }
 
     fun narrativeDetail(id: Int): String {

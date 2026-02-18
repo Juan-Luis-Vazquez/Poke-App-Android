@@ -3,7 +3,7 @@ package com.example.pokeapp.data.repository.type
 import com.example.pokeapp.data.datasource.type.TypeLocalDataSource
 import com.example.pokeapp.data.datasource.type.TypeRemoteDataSource
 import com.example.pokeapp.data.mapper.toDomain
-import com.example.pokeapp.domain.model.type.Type
+import com.example.pokeapp.domain.model.type.PokemonType
 import com.example.pokeapp.domain.model.type.TypeDetail
 
 class TypeRepository (
@@ -11,7 +11,7 @@ class TypeRepository (
     private val localDataSource: TypeLocalDataSource
 ) {
 
-    suspend fun getTypes(): Result<List<Type>> {
+    suspend fun getTypes(): Result<List<PokemonType>> {
         return try {
 
             val response = remoteDataSource.fetchTypesList()
